@@ -1,0 +1,25 @@
+//////////////////////////////////////////////
+ELITE FORCE 2: AFTERMATH EPISODES/////////////
+////////////////////////////////////Revenant//
+Relased: 13th March 2022
+
+Contains the new episode Revenant and all previouse,
+levels of the mod.
+
+A nice update for players of Elite Force 2.
+
+
+Install:    Copy the *.pk3-file to your EF2 base folder.
+Uninstall:  Remove the *.pk3-file from your EF2 base folder.
+
+Disclaimer:
+Im not responsible for anything that happens to your computer after installing this.
+There's nothing bad in these files and i will not take responsibility for any damage.
+
+Legal stuff:
+Please don't steal anything from this mod.
+Don't decompile maps or change the scripts without permission.
+
+Credits:
+Daedalus
+Chrissstrahl
