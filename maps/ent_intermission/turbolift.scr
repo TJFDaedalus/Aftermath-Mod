@@ -1,0 +1,425 @@
+//This script contains the code for the lift, use as you please
+//This script contains the code for the lift, use as you please
+//This script contains the code for the lift, use as you please
+//------------------------------------------------------------------------------
+//	Code related to Turbolifts
+//------------------------------------------------------------------------------
+
+//Global Variables, can be accessed by all Functions/scriptfiles
+//if definied outside a function, just like this
+////////////////////////////////////////////////////////////////////////////////
+
+
+//declaration
+////////////////////////////////////////////////////////////////////////////////
+void turbolift_playerSetOriginAndAngle(float fClient,vector vCurrentOrigin,vector vTargetOrigin,vector vCurrentAngle,vector vTargetAngle);
+void turbolift_travelFromTo(entity ePlayer, string sStartLift, string sTargetLift, string sAlternativeTarget);
+
+
+//TARGETNAMES FOR TURBOLIFTS
+// - A Turbolift has 3 Parts Parts 1 and 2 are required, 3 is optinal: 1=Trigger, 2=Origin, 3=Doors
+// - The targetnames are expected to be like:
+// myLift123		//Trigger, which the player must use to see the menu (this determins also the basetargetname)
+// myLift123_origin	//Origin, this is the location and orientation marker of the lift (you need to rotate it towards the exact middle of the door in all lifts - use r in radiant)
+// myLift123_doors	//Doors, this are the Doors of the lift
+// myLift123_symbol	//Symbol, this used to indicate the location of the trigger. This is hidden once the menu is active and shown again when it is not
+
+//YOU NEED TO SET THE FOLLOWING ATTRIBUTES ON EACH TURBOLIFT TRIGGER:
+// - targetname, set a unuiqe targetname for each lift trigger (see above for the names: TARGETNAMES FOR TURBOLIFTS)
+// - thread, set the thread to mom_basic, this will make mom show the menu to player
+// - uservar1, set the uservar1 to the name of the UI/MENU you want to use, this is OPTIONAL
+// - uservar2, set the uservar2 to mom_turbolift, this will make mom use the Turbolift Scripts
+
+void mom_turbolift()
+//------------------------------------------------------------------------------
+//	This is executed when the player uses a turbolift trigger 
+//------------------------------------------------------------------------------
+{
+	centerprint("1");
+	entity ePlayer;
+	ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	if(mom_checkExistingLivingEntity(ePlayer)){
+		centerprint("2");
+	
+		//This is a Debug/Test Printout
+		string sBasename;
+		sBasename = ePlayer.getStringVar("mom_entityBasename");
+		ePlayer.hudprint("Current Turbolift:"+sBasename+"\n");
+		
+	}
+}
+
+//FALLBACK TO USE _origin _door _symbol ....
+//FALLBACK TO USE _origin _door _symbol ....
+//FALLBACK TO USE _origin _door _symbol ....
+//FALLBACK TO USE _origin _door _symbol ....
+//FALLBACK TO USE _origin _door _symbol ....
+//FALLBACK TO USE _origin _door _symbol ....
+//FALLBACK TO USE _origin _door _symbol ....
+//FALLBACK TO USE _origin _door _symbol ....
+//FALLBACK TO USE _origin _door _symbol ....
+//FALLBACK TO USE _origin _door _symbol ....
+//FALLBACK TO USE _origin _door _symbol ....
+
+void mom_turbolift_Zero()
+//------------------------------------------------------------------------------
+//	This is executed when the player uses button 0 in multioptions menu
+//------------------------------------------------------------------------------
+{
+	entity ePlayer;
+	ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	if(!mom_checkExistingLivingEntity(ePlayer)){ return; }
+	string sBasename;
+	sBasename = ePlayer.getStringVar("mom_entityBasename");	
+////PLAYER,CURRENTLIFT,TARGETLIFT(required),ALTERNATIVE-TARGETLIFT(optional)
+	//Parameter3=Targetlift
+	//Parameter4=Alternative Targetlift if first Targetlift is busy
+	turbolift_travelFromTo(ePlayer,sBasename,	"deck1Turbolift0","deck1Turbolift1");
+}
+
+void mom_turbolift_One()
+//------------------------------------------------------------------------------
+//	This is executed when the player uses button 1 in multioptions menu
+//------------------------------------------------------------------------------
+{
+	entity ePlayer,eTrigger;
+	ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	if(!mom_checkExistingLivingEntity(ePlayer)){ return; }
+	string sBasename;
+	sBasename = ePlayer.getStringVar("mom_entityBasename");	
+////PLAYER,CURRENTLIFT,TARGETLIFT(required),ALTERNATIVE-TARGETLIFT(optional)
+	//Parameter3=Targetlift
+	//Parameter4=Alternative Targetlift if first Targetlift is busy
+	turbolift_travelFromTo(ePlayer,sBasename,	"deck1Turbolift1","deck1Turbolift0");
+}
+
+void mom_turbolift_Two()
+//------------------------------------------------------------------------------
+//	This is executed when the player uses button 2 in multioptions menu
+//------------------------------------------------------------------------------
+{
+	entity ePlayer;
+	ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	if(!mom_checkExistingLivingEntity(ePlayer)){ return; }
+	string sBasename;
+	sBasename = ePlayer.getStringVar("mom_entityBasename");	
+////PLAYER,CURRENTLIFT,TARGETLIFT(required),ALTERNATIVE-TARGETLIFT(optional)
+	//Parameter3=Targetlift
+	//Parameter4=Alternative Targetlift if first Targetlift is busy
+	turbolift_travelFromTo(ePlayer,sBasename,	"deck7Turbolift0","deck7Turbolift1");
+}
+
+void mom_turbolift_Three()
+//------------------------------------------------------------------------------
+//	This is executed when the player uses button 3 in multioptions menu
+//------------------------------------------------------------------------------
+{
+	entity ePlayer;
+	ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	if(!mom_checkExistingLivingEntity(ePlayer)){ return; }
+	string sBasename;
+	sBasename = ePlayer.getStringVar("mom_entityBasename");	
+////PLAYER,CURRENTLIFT,TARGETLIFT(required),ALTERNATIVE-TARGETLIFT(optional)
+	//Parameter3=Targetlift
+	//Parameter4=Alternative Targetlift if first Targetlift is busy
+	turbolift_travelFromTo(ePlayer,sBasename,	"deck7Turbolift1","deck7Turbolift2");
+}
+
+void mom_turbolift_Four()
+//------------------------------------------------------------------------------
+//	This is executed when the player uses button 4 in multioptions menu
+//------------------------------------------------------------------------------
+{
+	entity ePlayer;
+	ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	if(!mom_checkExistingLivingEntity(ePlayer)){ return; }
+	string sBasename;
+	sBasename = ePlayer.getStringVar("mom_entityBasename");	
+////PLAYER,CURRENTLIFT,TARGETLIFT(required),ALTERNATIVE-TARGETLIFT(optional)
+	//Parameter3=Targetlift
+	//Parameter4=Alternative Targetlift if first Targetlift is busy
+	turbolift_travelFromTo(ePlayer,sBasename,	"deck7Turbolift2","deck7Turbolift1");
+}
+
+void mom_turbolift_Five()
+//------------------------------------------------------------------------------
+//	This is executed when the player uses button 5 in multioptions menu
+//------------------------------------------------------------------------------
+{
+	entity ePlayer;
+	ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	if(!mom_checkExistingLivingEntity(ePlayer)){ return; }
+	string sBasename;
+	sBasename = ePlayer.getStringVar("mom_entityBasename");
+////PLAYER,CURRENTLIFT,TARGETLIFT(required),ALTERNATIVE-TARGETLIFT(optional)
+	//Parameter3=Targetlift
+	//Parameter4=Alternative Targetlift if first Targetlift is busy
+	turbolift_travelFromTo(ePlayer,sBasename,	"deck8Turbolift0","deck8Turbolift1");
+}
+
+void mom_turbolift_Six()
+//------------------------------------------------------------------------------
+//	This is executed when the player uses button 6 in multioptions menu
+//------------------------------------------------------------------------------
+{
+	entity ePlayer;
+	ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	if(!mom_checkExistingLivingEntity(ePlayer)){ return; }
+	string sBasename;
+	sBasename = ePlayer.getStringVar("mom_entityBasename");
+////PLAYER,CURRENTLIFT,TARGETLIFT(required),ALTERNATIVE-TARGETLIFT(optional)
+	//Parameter3=Targetlift
+	//Parameter4=Alternative Targetlift if first Targetlift is busy
+	turbolift_travelFromTo(ePlayer,sBasename,	"deck8Turbolift1","deck1Turbolift0");
+}
+
+void mom_turbolift_Seven()
+//------------------------------------------------------------------------------
+//	This is executed when the player uses button 7 in multioptions menu
+//------------------------------------------------------------------------------
+{
+	entity ePlayer;
+	ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	if(!mom_checkExistingLivingEntity(ePlayer)){ return; }
+	string sBasename;
+	sBasename = ePlayer.getStringVar("mom_entityBasename");
+////PLAYER,CURRENTLIFT,TARGETLIFT(required),ALTERNATIVE-TARGETLIFT(optional)
+	//Parameter3=Targetlift
+	//Parameter4=Alternative Targetlift if first Targetlift is busy
+	turbolift_travelFromTo(ePlayer,sBasename,	"deck11Turbolift","");
+}
+
+void mom_turbolift_Eight()
+//------------------------------------------------------------------------------
+//	This is executed when the player uses button 8 in multioptions menu
+//------------------------------------------------------------------------------
+{
+	entity ePlayer;
+	ePlayer = mom_returnPlayerForTrigger(getCurrentEntity());
+	if(!mom_checkExistingLivingEntity(ePlayer)){ return; }
+	string sBasename;
+	sBasename = ePlayer.getStringVar("mom_entityBasename");
+////PLAYER,CURRENTLIFT,TARGETLIFT(required),ALTERNATIVE-TARGETLIFT(optional)
+	//Parameter3=Targetlift
+	//Parameter4=Alternative Targetlift if first Targetlift is busy
+	turbolift_travelFromTo(ePlayer,sBasename,	"deck16Turbolift","");
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+// DO NOT CHANGE STUFF BEJOND THIS POINT UNLESS YOU ARE REALLY SURE
+// DO NOT CHANGE STUFF BEJOND THIS POINT UNLESS YOU ARE REALLY SURE
+// DO NOT CHANGE STUFF BEJOND THIS POINT UNLESS YOU ARE REALLY SURE
+// DO NOT CHANGE STUFF BEJOND THIS POINT UNLESS YOU ARE REALLY SURE
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
+void turbolift_playerSetOriginAndAngle(float fClient,vector vCurrentOrigin,vector vTargetOrigin,vector vCurrentAngle,vector vTargetAngle)
+{
+//create variables
+	float fTurnAmount,fOffsetAngle,fTmp1,fTmp2;
+	vector vPlayer,vPlayerNew,vOffset;
+	entity ePlayer;
+	
+	ePlayer=getEntity("*"+fClient);
+	
+	if(!mom_checkExistingLivingEntity(ePlayer))
+	{
+		return;
+	}
+
+//get player origin
+	vPlayer = ePlayer.getOrigin();
+	
+//get angle to turn player/vector
+	fTurnAmount = globalMath_GetCircularDistanceInDegrees(vCurrentAngle_y,vTargetAngle_y);
+
+
+ePlayer.hudprint("Circular dist: "+fTurnAmount+" - "+vCurrentAngle_y+":"+vTargetAngle_y+"\n");
+
+	
+//calculate vector offset
+	vOffset	= (vPlayer-vCurrentOrigin);
+
+//calculate angular offset to new lift - perhaps
+	fOffsetAngle = (arctandegrees(vOffset_y, vOffset_x) + fTurnAmount);
+	
+//calculate the offset
+	fTmp1			= vectorlength(vOffset);
+	fTmp2			= fTmp1 * cosdegrees(fOffsetAngle);
+	vPlayerNew_x	= vTargetOrigin_x + fTmp2;
+	fTmp2			= fTmp1 * sindegrees(fOffsetAngle);
+	vPlayerNew_y	= vTargetOrigin_y + fTmp2;
+	vPlayerNew_z = vTargetOrigin_z + vOffset_z;	
+	
+//move player to the new location and update viewangels
+	ePlayer.notsolid();
+	ePlayer.warp(vPlayerNew);	
+	ePlayer.turn(fTurnAmount,0);	
+	
+	thread mom_playerMakeSolidASAP(ePlayer);
+	
+	// stuffCMD("echo fOffsetAngle: "+fOffsetAngle+"\n");
+	// stuffCMD("echo fTurnAmount: "+fTurnAmount+"\n\n");
+	// stuffCMD("echo vCurrentOrigin: "+vCurrentOrigin+"\n");
+	// stuffCMD("echo vTargetOrigin: "+vTargetOrigin+"\n");
+	// stuffCMD("echo vPlayer: "+vPlayer+"\n");
+	// stuffCMD("echo vOffset: "+vOffset+"\n");
+	// stuffCMD("echo vPlayerNew: "+vPlayerNew+"\n");
+	// stuffCMD("echo cosdegrees(fOffsetAngle): "+cosdegrees(fOffsetAngle)+"\n");
+	// stuffCMD("echo sindegrees(fOffsetAngle)): "+sindegrees(fOffsetAngle)+"\n");
+}
+
+void turbolift_travelFromTo( entity ePlayer, string sStartLift,string sTargetLift,string sAlternativeTarget)
+//void turbolift_travelFromTo(float fCurrentDeck,float fTargetDeck)
+//lock the target lift location
+{
+	if(sStartLift == sTargetLift)
+	{
+		thread mom_showMessagePlayer(ePlayer,"You are already at this Location!");
+		return;
+	}
+
+//lock target lift, so noone can enter it
+	entity	eTargetLiftDoors,
+			eTargetLift,
+			eCurrentLiftDoors,
+			eCurrentLift,
+			eTargetLiftAlt,
+			eTargetLiftAltDoors;
+	eCurrentLift		= getEntity(sStartLift+"_origin");
+	eCurrentLiftDoors	= getEntity(sStartLift+"_door");
+	eTargetLift			= getEntity(sTargetLift+"_origin");
+	eTargetLiftDoors	= getEntity(sTargetLift+"_door");
+	if(sAlternativeTarget != ""){
+		eTargetLiftAlt		= getEntity(sAlternativeTarget+"_origin");
+		eTargetLiftAltDoors	= getEntity(sAlternativeTarget+"_door");
+	}
+	
+//This lift is now busy and can no longer be used or traveled to by others
+	eCurrentLift.setFloatVar("mom_turboliftIsBusy",1);
+	thread mom_showMessagePlayer(ePlayer,"Lift Travel from "+sStartLift+" to "+sTargetLift+".");
+	
+//Check if lifts exist
+	if(!doesEntityExist(eCurrentLift)){
+		thread mom_showMessagePlayer(ePlayer,"Starting Lift ("+sStartLift+"Origin) does not exist...");
+		
+//remove Menu from player screen
+		thread mom_exitMenuPlayer(ePlayer);
+		return;
+	}
+	if(!doesEntityExist(eTargetLift)){
+		thread mom_showMessagePlayer(ePlayer,"Target Lift ("+sTargetLift+"Origin) does not exist...");
+		if(sAlternativeTarget != ""){
+			thread mom_showMessage(sStartLift,"Trying to use Alternative ("+sAlternativeTarget+"Origin)...");
+			eTargetLift			= eTargetLiftAlt;
+			eTargetLiftDoors	= eTargetLiftAltDoors;
+			if(!doesEntityExist(eTargetLift)){
+				thread mom_showMessagePlayer(ePlayer,"Alternative Target Lift ("+sTargetLift+"Origin) does not exist...");
+				return;
+			}
+		}else{
+			return;
+		}
+	}else if(eTargetLift.getFloatVar("mom_turboliftIsBusy") != 0){
+		thread mom_showMessagePlayer(ePlayer,"Lift Busy trying to use Alternative ("+sAlternativeTarget+"Origin)...");
+		eTargetLift			= eTargetLiftAlt;
+		eTargetLiftDoors	= eTargetLiftAltDoors;
+		if(eTargetLift.getFloatVar("mom_turboliftIsBusy") != 0){
+			thread mom_showMessagePlayer(ePlayer,"Alternative Lift is also Busy right now ("+sAlternativeTarget+"Origin)...");
+			thread mom_showMessagePlayer(ePlayer,"Please select a different destination...");
+			return;
+		}
+	}
+	
+	//remove Menu from player screen
+	thread mom_exitMenuPlayer(ePlayer);
+	eTargetLift.setFloatVar("mom_turboliftIsBusy",1);
+	
+//lock lift doors, then close them
+	if(doesEntityExist(eCurrentLiftDoors))
+	{
+		eCurrentLiftDoors.lock();
+		eCurrentLiftDoors.close();
+	}
+	if(doesEntityExist(eTargetLiftDoors))
+	{
+		eTargetLiftDoors.lock();
+		eTargetLiftDoors.close();
+	}
+//play travel sound on the current lift
+	eCurrentLift.playsound("sound/ships/enterprise/ent_turbolift_run.wav",0,2,84);
+	wait(3.9);
+vector	vCurrentOrigin,
+		vCurrentAngles,
+		vTargetOrigin,
+		vTargetAngles,
+		vPlayerAngles,
+		vPlayerLiftOffset,
+		vPlayerOrigin;
+float	fDifferenceLift,
+		fDifferencePlayer;
+	
+	vCurrentOrigin	= eCurrentLift.getOrigin();
+	vTargetOrigin	= eTargetLift.getOrigin();
+	vCurrentAngles	= eCurrentLift.getAngles(); //Not working unless you have ATTRIBUTE angles set (use r to activate in radiant)
+	vTargetAngles	= eTargetLift.getAngles(); //Not working unless you have ATTRIBUTE angles set (use r to activate in radiant)
+
+	//purify data ^^
+	vCurrentAngles_x	= (vCurrentAngles_z = 0);
+	vTargetAngles_x		= (vTargetAngles_z = 0);
+
+//warp players
+	print("xxxx:"+eTargetLift.getAngles()+"\n");
+
+	float fClient,fMaxClients;
+	fMaxClients = getCvarInt("sv_maxclients");
+	for(fClient=0;fClient<fMaxClients;fClient++){
+		entity ePlayer;
+		ePlayer = getEntity("*"+fClient);
+		if(mom_checkExistingLivingEntity(ePlayer)){
+			if(ePlayer.isWithinDistanceOf(eCurrentLift,90)){
+				ePlayer.hudprint("data:"+vCurrentAngles+":"+vTargetAngles+"\n");
+				thread turbolift_playerSetOriginAndAngle(fClient,vCurrentOrigin,vTargetOrigin,vCurrentAngles,vTargetAngles);
+			}
+		}
+	}
+	
+	eTargetLift.playsound("sound/ships/enterprise/ent_turbolift_stop.wav",0,2,84);
+	eCurrentLift.stopsound(0);
+	wait(3);
+//unlock target lift doors
+	if(doesEntityExist(eTargetLiftDoors))
+	{
+		eTargetLiftDoors.unlock();
+	}
+//unlock "current" lift doors
+	if(doesEntityExist(eCurrentLiftDoors))
+	{
+		eCurrentLiftDoors.unlock();
+	}
+//allow travel to this lift now again
+	wait(3);
+	eTargetLift.setFloatVar("mom_turboliftIsBusy",0);
+	eCurrentLift.setFloatVar("mom_turboliftIsBusy",0);
+}
+
+
