@@ -1,0 +1,23 @@
+//Captain's Log, Stardate 
+///
+
+////Start Player in Quarters
+/////
+
+void main()
+{
+//clear/set viewmodes avialbe for Tricorder
+	$world.clearAvailableViewModes();
+	$world.addAvailableViewMode("structuralintegrity");
+
+	
+//spawn camera first so it will be there by the time we need it in teh cinematic (wait at least 0.05 sec
+	spawn("camera","targetname","cam1");
+	
+		// Entity fade dist
+	$sky.rendereffects( "+skyorigin" );
+	
+	$world.entity_fade_dist( 16000 );
+	
+	$camfront.roll( 180 );
+}
