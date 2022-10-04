@@ -9,6 +9,8 @@
 #include "maps/global_scripts/global_tricorderRoute.scr" 
 #include "maps/global_scripts/global_tricorderMod.scr" 
 #include "maps/global_scripts/global_tricorderKeypad.scr"
+#include "maps/coop_mrm/nocoop_multioptions.scr"
+#include "maps/coop_mrm/nocoop_mom_mrm.scr"
 
 void main()
 {
@@ -31,7 +33,7 @@ void main()
 	
 	//enable sky(skybox)
 	$sky.rendereffects( "+skyorigin" );
-	
+	soundtrack( "music/city5c.mus" );	
 	//clear/set viewmodes avialbe for Tricorder
 	$world.clearAvailableViewModes();
 	
@@ -51,27 +53,39 @@ void main()
 	$world.addAvailableViewMode("structuralintegrity");
 //give weapons from previouse level, in case player loads city5c as standalone
 	$player.give("models/weapons/worldmodel-compressionrifle.tik");
+	$player.give("models/weapons/worldmodel-grenadelauncher.tik");
 	$player.give("models/weapons/worldmodel-sniperrifle.tik");
 	$player.give("models/weapons/worldmodel-tricorder-stx.tik");
 	$player.give("models/weapons/worldmodel-phaser-stx.tik");	
 	
-//cinematic actors off
-	$munro.hide();
+//actors off
+	$fallschirmschirm1.hide();
 	$munro2.hide();
-	$munro.pushable(0);
+	$chang2.hide();
+	$korban2.ai_off();
 	$munro2.ai_off();
-	$munro.ai_off();
-	$munro.notsolid();
 	$chloe.ai_off();
+	$informantrun.ai_off();
 	$jack.ai_off();
 	$chloe.give("models/weapons/worldmodel-phaser-stx.tik");	
 	$sniper.ai_off();
 	$sniper2.ai_off();
-	$guy2.ai_off();
+	$tireddude.ai_off();
+	$munro2.pushable(0);
 	$sniper3.ai_off();
 	$girl1.anim("bar_sitting_relaxed");
-	$theguy.anim("bar_sitting_forward");
+	$tireddude.anim("bar_sitting_forward");
 	$guy2.anim("bar_sitting_forward");
+	
+	//hazardteam off
+	
+	$chang.ai_off();
+	$korban.ai_off();
+	$chang2.ai_off();
+	$korban2.ai_off();
+	$andorianguy.ai_off();
+	$andoriankid.ai_off();
+	$tireddude.ai_off();
 	
 
 	
@@ -82,7 +96,7 @@ void main()
 void surprise()
 {
         $player.setobjectiveshow( "c5ctalk", 1 );
-		
+	$entrancedoor1.open($player);	
 	//fadeout camera
 	cam_fadeout(0.25,0,0,0,1);
 	
@@ -92,7 +106,7 @@ void surprise()
 //wait a moment for the camera to spawn
 	wait(1);
 	//fade in cam
-	$munro.show();
+	$munro2.show();
 	//do cinematic commands only in singleplayer
 	if(getCvarInt("g_gametype") != 1)
 	{
@@ -102,59 +116,47 @@ void surprise()
 		wait(0.1);//cam is ready after 0.05, after these 0.1 it will be accessible
 //time 1.0002 sec 
 		wait(1.0);
-		$cam1.follow($munrocam);	
+		$cam1.follow($overshoulder);	
 		$cam1.cut();
 		cuecamera($cam1);
 		cam_fadeIn(0.25,0,0,0,1);
 	}
 	//munro walks thru door
-	$entrancedoor.open($world);
-	$munro.walkto("t7","walk");
-	wait(2);
-	//gets pointed gun at by the civillians
 	$chloe.anim("mercpistol_tense_idle1");
-	$jack.anim("mercshotgun_tense_idle1");	
-	$munro.headwatch($chloe);
-	wait(0.5);
-	$cam2.follow($angle2);	
-	$cam2.cut();
-	cuecamera($cam2);
-
-
-	$cam2.follow($cut2);	
-	$cam2.cut();
-	cuecamera($cam2);
 	wait(1.0);
-	$chloe.playDialog("localization/sound/dialog/m9l1/mercf2_offic.mp3",2,128,0);
-	waitforDialog($chloe);
-	$cam2.follow($angle2);	
+	//PLZ DON'T SHOOT IM WITH THE FEDERATION - Munro 
+	$jack.playDialog("localization/sound/dialog/city5c/whoareyou.mp3",2,128,0);
+	wait(1.5);
+	$cam2.follow($munrocam);	
 	$cam2.cut();
 	cuecamera($cam2);
-	//PLZ DON'T SHOOT IM WITH THE FEDERATION - Munro 
-	$munro.playDialog("localization/sound/dialog/m5l2/munro_getyouout.mp3",2,128,0);
-	waitforDialog($munro);
-	$chloe.anim("mercpistol_idle");
-	$jack.anim("mercshotgun_idle");	
-	//Ok i almost lost my arm there are exomorphs in this level
-	$jack.playDialog("localization/sound/dialog/m5l2/krindo_tookarm.mp3",2,128,0);
-	$chloe.walkto("chloenode0","walk");	
-	waitforDialog($jack);	
-	$munro.headwatch($jack);
-	//Keep yourselves alive so i can save you all
-	$munro.playDialog("localization/sound/dialog/m8l2/munro_keepalive.mp3",2,128,0);	
-	waitforDialog($munro);
-
+	$munro2.playDialog("localization/sound/dialog/m5l2/munro_getyouout.mp3",2,128);
+	waitforDialog($player);
+	wait(3.0);
+	$jack.anim("mercshotgun_idle");
+	
+	$cam1.follow($munrocam2);	
+	$cam1.cut();
+	cuecamera($cam1);
 	//follow me so the scripted event will kill me in 2 seconds.
-	$jack.playDialog("localization/sound/dialog/m5l2/krindo_comewith.mp3",2,128,0);
-	waitforDialog($jack);	
-	wait(0.5);
-	//jack walks away from his problems
-	$jack.walkto("mercnode0","walk");
-	//fadeout camera
+	$jack.playDialog("localization/sound/dialog/city5c/crawford.mp3",2,128,0);
+	$chloe.pushable(0);
+	$jack.pushable(0);
+	$chloe.anim("idle");
+	wait(3);
+	$jack.playDialog("localization/sound/dialog/city5c/mustbeimportant.mp3",2,128,0);
+	wait(12);
+	$cam1.follow($overshoulder);	
+	$cam1.cut();
+	cuecamera($cam1);
+	wait(6);
+	$jack.walkto("mercnode6","walk");
+	
+		//fadeout camera
 	cam_fadeout(0.25,0,0,0,1);
 	wait(2.0);
 	//munro pisses off
-	$munro.remove();
+	$munro2.remove();
 //do cinematic commands only in singleplayer
 	if(getCvarInt("g_gametype") != 1)
 	{
@@ -166,30 +168,67 @@ void surprise()
 		$player.solid();
 	}
 	cam_fadeIn(0.25,0,0,0,1);
-	$player.origin('-224 856 128');
-	//player is teleported through the door
-	$chloe.pushable(0);
 	wait(1.0);
-	$jack.walkto("mercnode7","run");
+	$chloe.headWatch($player);
+	$chloe.anim("talk-talk-handsonhips3");
+	$chloe.PlayDialog( "localization/sound/dialog/city5c/supplies.mp3", 2, 128,0);	
+	wait(5.0);
+	$chloe.walkto("storageroomnode","run");
+	$chloe.walkto("chloenode26","run");
+	$jack.onUse("jackOnUse");
+	$chloe.anim("idle");
 }
+	
+	
+void chloeOnUse()
+{
+	$chloe.walkto("chloenode26","run");
+}
+
+void jackOnUse()
+{
+
+	$jack.walkto("mercnode14","run");
+	wait(1.0);
+	$chloe.anim("idle");
+	wait(1.0);
+	$jack.walkto("chloenode27","run");
+}
+
+
 	
 void flyby()
 {
 //start the shuttle
-	$shuttleOrigin.followpath( $shuttlePath , "ignoreangles" );
+$shuttle.bind($shuttleOrigin);
+$shuttleOrigin.followpath( $shuttlePath ,"normalangles" );
+$shuttleOrigin.playsound ( "sound/ships/drull/drull_flyby1.wav" , 2 , 1.5 , 10000 );
 //play flyby sound for romulan shuttle
 	$shuttle.loopsound("sound/vehicles/shuttlecraft/shuttle_flyby_slow.WAV",1,512);
-	$jack.health( 10 );
+	$jack.health( 300 );
 	$chloe.health( 300 );
+	$jack.playDialog("localization/sound/dialog/city5c/snipers.mp3",2,128,0);
 	$chloe.walkto("chloenode26","run");	
 	wait(1.0);
 	$jack.walkto("mercnode11","run");
 	wait(0.5);
 	$sniper.attack($jack);
 	wait(2.0);
+	$chloe.onUse("chloeOnUse");	
 	$sniper2.ai_on();
 	$sniper.ai_on();
 	$sniper3.ai_on();
+	$sniper.ai_on();
+	$sniper3.ai_on();
+	$chang.attack($bug1);	
+	$korban.attack($bug2);	
+	
+}
+
+void merccontinue()
+{
+	$jack.walkto("jackpausenode","walk");
+	$chloe.walkto("chloeendnode","walk");
 }
 
 void shuttleAttacked()
@@ -235,6 +274,11 @@ void walldooropen()
 	$walldoor.open($player);
 }
 
+void alienfightroofover()
+{
+	
+}
+
 void lookaround()
 {
      $player.setobjectiveshow( "c5cscanarea", 1 );
@@ -254,3 +298,247 @@ void needkey()
     $player.setobjectiveshow( "c5cgetkey", 1 );
 }
 
+void supplies()
+{
+	$cassandra.anim("talk-talk-handsonhips3");
+	$cassandra.PlayDialog( "localization/sound/dialog/city5c/supplies.mp3", 2, 128,0);
+	wait(5.0);
+	$cassandra.anim("bar_idle");
+}
+
+void hazardteamreunite()
+{
+	$cassandra.anim("bar_idle");
+	$tireddude.anim("bar_sitting_sleep");
+	$chang.remove();
+	$korban.remove();
+	//make korban normal again and following munro
+	$korban2.ai_on();
+	$chang2.show();
+}
+
+void setMissionResources()
+//=============================
+// Sets Mission Resources
+//=============================
+//
+// The variables are declared in mom_mrm.scr, which needs
+// to be included before they can be accsessed, which means
+// usually at the very top of the main map script file
+{
+	//set mission name
+	sMissionName = "USS MomneyMaker";
+
+	//challanges Allowed in this mission, by name
+	sChallanges = "";
+	
+	//3 Items can be specified as Required for the player
+	//for efficeny reasons a vector is used
+	//specify the buy slot at which the item is located
+	//if you want to required items use '0 0 0'
+	//if you want item 3 and 5 use '5 3 0'
+	//Structure: requiredItemSlot1 requiredItemSlot2 requiredItemSlot3
+	vRequired3Items = '2 4 0';
+	
+	//specify the starting credits the player gets for this mission
+	//for efficeny reasons a vector is used
+	//Usage:	1 requisition point gets you 1 item
+	//			Energy Credits is meant to be used as kind of money or energy required to replicate a item
+	//			If you want the player to start with only 3 requisition points use '3 0 0'
+	//Structure: 1=RequisitionPoints 2=EnergyCredits 3=NotYetImplementedCreditType
+	vStartCredits = '4 1000 0';
+	
+	//SET ITEM 1 DATA
+	//- MODEL the player does recive for this item.
+	//- NAME that is shown in the Title of the item description in the mrm-menu
+	//- DESCRIPTION like stats and mission relevant benefits or perks when using this item
+	//- SHADER to display in the item slot, usually a symbol/icon of the item
+	//- COST 1=RequisitionPoints 2=EnergyCredits 3=NotYetImplementedCreditType
+	sItemBuy1="models/item/holdable_spawnRegen.tik";
+	sItemBuy1Name="Health Regen";
+	sItemBuy1Descr="Eternal Youth";
+	sItemBuy1Shader="sysimg/icons/items/powerup_regen.dds";
+	vItemBuy1Cost = '9 99999 1';
+	
+	//SET ITEM 2 DATA
+	sItemBuy2="models/weapons/worldmodel-burstrifle.tik";
+	sItemBuy2Name="Burstrifle";
+	sItemBuy2Descr="Bratwurst Riffle";
+	sItemBuy2Shader="sysimg/icons/items/wep_burst.tga";
+	vItemBuy2Cost = '0 1000 1';
+	
+	//SET ITEM 3 DATA
+	sItemBuy3="models/weapons/worldmodel-Tricorder-stx.tik";
+	sItemBuy3Name="Fancy Tricorder";
+	sItemBuy3Descr="Krautsalat schmekt gut!";
+	sItemBuy3Shader="inv-bkg-select-tricorder-stx";
+	vItemBuy3Cost = '1 200 1';
+	
+	//SET ITEM 4 DATA
+	sItemBuy4="models/weapons/worldmodel-fedassaultrifle.tik";
+	sItemBuy4Name="Shiny Sniperrifle";
+	sItemBuy4Descr="Descriptive Text Some How here or there or everywhere";
+	sItemBuy4Shader="sysimg/icons/items/wep_sniper.tga";
+	vItemBuy4Cost = '1 1000 1';
+	
+	//SET ITEM 5 DATA
+	sItemBuy5="models/weapons/worldmodel-hypospray.tik";
+	sItemBuy5Name="Hyper Hyper";
+	sItemBuy5Descr="Scooter";
+	sItemBuy5Shader="sysimg/icons/items/health.tga";
+	vItemBuy5Cost = '1 100 1';
+	
+	//SET ITEM 6 DATA
+	sItemBuy6="models/item/armor_large_shield.tik";
+	sItemBuy6Name="XXL_Large_Shield";
+	sItemBuy6Descr="Because, SIZE MATTERS";
+	sItemBuy6Shader="sysimg/icons/items/armor.tga";
+	vItemBuy6Cost = '1 300 1';
+	
+	//SET ITEM 7 DATA
+	sItemBuy7="models/item/ammo_large.tik";
+	sItemBuy7Name="Plasma Ammo";
+	sItemBuy7Descr="Every Sifi needs PLASMA";
+	sItemBuy7Shader="sysimg/icons/items/ammo_plasma.tga";
+	vItemBuy7Cost = '1 500 4';
+
+	//SET ITEM 8 DATA
+	sItemBuy8="models/item/ammo_fed_large.tik";
+	sItemBuy8Name="Federation Ammo";
+	sItemBuy8Descr="Best_grade_HuuuMAn-Ammo";
+	sItemBuy8Shader="sysimg/icons/items/ammo_fed.tga";
+	vItemBuy8Cost = '1 450 1';
+}
+
+void invasion()
+{
+	//played when player enters romulan building
+	$player.simplePlayDialog( "localization/sound/dialog/city6/intruderalert.mp3", 2, 128 );
+}
+
+//fallschrimer stuff
+
+void fallschrimer()
+{
+//learning to get this to work, can // if doesn't
+	$fallschirmschirm1.bind($fallschirm1);
+	$fallschirmschirm1.show();
+	$fallschirmschirm2.show();
+} 
+
+void group1Killed()
+{
+	$informantrun.walkto("informantrunhere","run");
+	$player.simplePlayDialog( "localization/sound/dialog/city5c/crazy.mp3", 2, 128 );
+}
+void group2Killed()
+{
+	//fadeout camera
+	cam_fadeout(0.25,0,0,0,1);
+	$doorRotating10.unlock();
+	$doorRotating10.open($player);
+	$korban2.show();
+	wait(1);
+	//do cinematic commands only in singleplayer
+	if(getCvarInt("g_gametype") != 1)
+	{
+		cinematic();
+		freezeplayer();
+		letterbox(0.1);
+		wait(0.1);//cam is ready after 0.05, after these 0.1 it will be accessible
+//time 1.0002 sec 
+		wait(1.0);
+		$cam1.follow($doorcam);	
+		$cam1.cut();
+		cuecamera($cam1);
+		cam_fadeIn(0.25,0,0,0,1);
+	}
+	
+//korban invites munro 
+	$korban2.anim("conv-comehere");
+	wait(3);
+	cam_fadeout(0.25,0,0,0,1);
+	wait(2.0);
+	$korban2.anim("idle");
+	
+//do cinematic commands only in singleplayer
+	if(getCvarInt("g_gametype") != 1)
+	{
+		noncinematic();
+		clearletterbox(0.1);
+		cueplayer();
+		releaseplayer();
+		$player.show();
+		$player.solid();
+	}
+	cam_fadeIn(0.25,0,0,0,1);
+}
+
+void setupGroups()
+{
+    $actor1_1.groupdeaththread("group1Killed");
+    $actor1_1.groupnumber(1);
+    $actor1_2.groupdeaththread("group1Killed");
+    $actor1_2.groupnumber(1);
+    $actor1_3.groupdeaththread("group1Killed");
+    $actor1_3.groupnumber(1);
+
+    $actor2_1.groupdeaththread("group2Killed");
+    $actor2_1.groupnumber(2);
+    $actor2_2.groupdeaththread("group2Killed");
+    $actor2_2.groupnumber(2);
+}
+
+//	//fadeout camera
+//	cam_fadeout(0.25,0,0,0,1);
+//		$doorRotating10.unlock();
+//	$doorRotating10.open($player);
+
+void orbitalAttack()
+{
+	string sTargetname;
+	entity ePhoton,eTrigger,eStreet,eStreetDamaged;
+	eTrigger = getCurrentEntity();
+	
+	if(doesEntityExist(eTrigger))
+	{
+		sTargetname = eTrigger.getStringVar("uservar1");
+		eStreet		= getEntity(sTargetname);
+		if(doesEntityExist(eStreet))
+		{
+			vector vOrigin;
+			//$torpedoFireStart.projectileAttackEntity( "models/projectile/projectile-photonball-idryll-secret.tik","$"+sTargetname,5,20);
+			//$torpedoFireStart.projectileAttackEntity( "weapons/projectile_photonball.tik","$"+sTargetname,5,20);
+			//$torpedoFireStart.projectileAttackEntity( "weapons/projectile_photonball2.tik","$"+sTargetname,5,20);
+			vOrigin	= eStreet.getOrigin();
+			vOrigin_z += vectorGetZ(eStreet.getMaxs());
+			ePhoton = spawn("script_object","model","weapons/projectile_photonball.tik","hide","1","origin","0 0 -99999");
+			wait(0.02);
+			ePhoton.show();
+			ePhoton.origin($torpedoFireStart.getOrigin());
+			wait(0.01);
+			ePhoton.movetopos(vOrigin);
+			ePhoton.time(1);
+			wait(1);
+			spawn("explosion","model","weapons/explosion-photon-andorian.tik","origin",""+vOrigin);
+			eStreet.remove();
+			ePhoton.doradiusdamage(350,"Explosion",64,6000,0,0);
+			ePhoton.doradiusdamage(50,"Explosion",128,400,0,0);
+			ePhoton.doradiusdamage(50,"Explosion",256,100,0,0);
+			ePhoton.doradiusdamage(25,"Explosion",384,50,0,0);
+			ePhoton.doradiusdamage(15,"Explosion",500,50,0,0);
+			ePhoton.doradiusdamage(10,"Explosion",550,50,0,0);
+			ePhoton.remove();
+			eStreetDamaged	= getEntity(sTargetname+"Damaged");
+			if(doesEntityExist(eStreetDamaged))
+			{
+				eStreetDamaged.show();
+			}
+		}
+	}
+}
+
+void ffdown()
+{
+	$levelend_ff.remove();
+}
