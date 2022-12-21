@@ -1,5 +1,7 @@
-//City 5C By Daedalus
-//THIS LEVEL COMES AFTER CITY5B AND BEFORE CITY6
+//Aftermath Level 5C By Daedalus
+//Lead Mapper Daedalus
+//Additional Mapping Akula
+//Lead Script from Chrissstrahl
 //In this Mission Munro finds some civillians, gets attacked by a romulan shuttle and has to find a way down from the rooftops.
 //meets up with chang and korban again, and heads on to find the spy.
 
@@ -19,7 +21,7 @@ void main()
     {
         $player.loadobjectives( "city5c" );
         wait( .1 );
-        $player.setobjectiveshow( "c5cescapetheprison", 1 );
+        $player.setobjectiveshow( "c5creunite", 1 );
 		$player.setobjectiveshow( "c5cfindspy", 1 );
         $player.setobjectiveshow( "c5ctalk", 0 );
         $player.setobjectiveshow( "c5cscanarea", 0 );
@@ -274,6 +276,21 @@ void walldooropen()
 	$walldoor.open($player);
 }
 
+void areaScanned()
+{
+	$areaScannPuzzle0.remove();
+	$tricorderArea2.remove();
+	$tricorderSymbol2.remove();
+	$holowall.loopsound("sound/ships/drull/drull_hologram.wav",1,256);
+	while(1)
+	{
+		$holowall.hide();
+		wait(0.15);
+		$holowall.show();
+		wait(0.15);
+	}
+}
+
 void alienfightroofover()
 {
 	
@@ -522,7 +539,7 @@ void orbitalAttack()
 			wait(1);
 			spawn("explosion","model","weapons/explosion-photon-andorian.tik","origin",""+vOrigin);
 			eStreet.remove();
-			ePhoton.doradiusdamage(350,"Explosion",64,6000,0,0);
+			ePhoton.doradiusdamage(350,"Explosion",64,6000,0,0);  
 			ePhoton.doradiusdamage(50,"Explosion",128,400,0,0);
 			ePhoton.doradiusdamage(50,"Explosion",256,100,0,0);
 			ePhoton.doradiusdamage(25,"Explosion",384,50,0,0);

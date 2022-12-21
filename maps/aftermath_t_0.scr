@@ -1,0 +1,106 @@
+//daedalus - 2022
+//Prologue Episode of Aftermath - Telsia's Mission
+
+
+void main()
+{
+//load objectives, then inizial
+    if(getCvarInt("g_gametype") != 1)
+    {
+        $player.loadobjectives( "tsia" );
+        wait( .1 );
+        $player.setobjectiveshow( "tmeet", 1 );
+		$player.setobjectiveshow( "thaz", 1 );
+        $player.setobjectiveshow( "c5ctalk", 0 );	
+        $player.setobjectiveshow( "c5cscanarea", 0 );
+        $player.setobjectiveshow( "c5cgetkey", 0 );
+		$player.setobjectiveshow( "c5cfixshuttle", 0 );
+        wait( .1 );
+        $player.setobjectivecomplete( "c5cescapetheprison", 1 );
+    }
+	// Entity fade dist
+	$world.entity_fade_dist( 16000 );
+	
+	//enable sky(skybox)
+	$sky0.rendereffects( "+skyorigin" );
+	soundtrack( "music/tsia.mus" );	
+	//clear/set viewmodes avialbe for Tricorder
+	$world.clearAvailableViewModes();
+	
+		
+	//hazardteam off
+	
+	$telsia.ai_off();
+	$telsia.hide();
+	$telsia.notsolid();
+	
+	$camfront.roll( 180 );
+	//spawn camera early so its done before level starts
+	spawn("camera","targetname","cam1");	
+	spawn("camera","targetname","cam2");
+	spawn("camera","targetname","cam3");	
+	
+	wait(0.5);
+	
+//fade screen black, this level starts with a cinematic
+	cam_fadeout(0.1,0,0,0,1);
+	
+//wait for the player to spawn
+	waitForPlayer();
+	
+	cam_fadeIn(0.25,0,0,0,1);//dissable cinematic during development
+	//return;//dissable cinematic during development
+	
+//do not do that in multiplayer, only singleplayer and solomatch
+//get the current game type from the config variables of game
+//0=sp,1=mp,2=solomatch
+	if( getCvarInt("g_gametype") == 0)
+	{
+		$player.hide();
+		$player.notsolid();
+	}
+	
+	cinematic();
+	freezeplayer();
+	letterbox(0.1);
+//make cam follow the given path entity
+	$cam1.follow($shot1);
+//transition to camera: cut, no transition
+	$cam1.cut();
+//wait for the camera to get started moving along the path
+	wait(0.1);
+//switch from player to given camera entity now
+	cuecamera($cam1);
+	$cam2.follow($shot2);
+	wait(5);
+	cam_fadeout(0.9,0,0,0,1);
+	wait(0.5);
+	cam_fadeIn(0.25,0,0,0,1);
+	
+	cuecamera($cam2);
+	//wait until the camera has blacked out
+		wait(1);
+	$telsia.displayeffect("TransportIn","Federation");
+	wait(1);
+	$telsia.show();
+	wait(4);
+	$telsia.remove();
+//do cinematic commands only in singleplayer
+	noncinematic();
+	clearletterbox(0.1);
+	cueplayer();
+	releaseplayer();
+	
+	
+//clear/set viewmodes avialbe for Tricorder
+	$world.clearAvailableViewModes();
+	$world.addAvailableViewMode("tripwire");
+	$world.addAvailableViewMode("structuralintegrity");
+	
+
+//give weapons for mission
+	$player.give("models/weapons/worldmodel-compressionrifle.tik");
+	$player.give("models/weapons/worldmodel-tricorder-stx.tik");
+	$player.give("models/weapons/worldmodel-phaser-stx.tik");	
+	$player.show();
+}
